@@ -1,6 +1,6 @@
 # Querido Diário - Piloto Educação
 
-Projeto piloto em parceria com a Fundação Lemann para monitorar com o Querido Diário as aquisições de tecnologia para educação básica.
+Projeto piloto em parceria com a Aliança (Fundação Lemann + Imaginable Futures) para monitorar com o Querido Diário as aquisições de tecnologia para educação básica.
 
 ## Colaborando
 
