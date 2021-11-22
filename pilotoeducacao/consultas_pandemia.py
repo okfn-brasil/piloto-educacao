@@ -17,16 +17,32 @@ from typing import Sequence, Optional
 
 consultas = [
     {
-        "primary_term": "internet",
+        "primary_term": "ensino",
         "secondary_terms": [
-            ["via rádio", "banda larga", "fibra ótica", "ADSL"],
-            ["educação remota", "ensino remoto", "ensino à distância"]
+            ["banda larga", "fibra ótica", "ADSL"],
+            ["educação remota", "ensino remoto"]
         ]
     }, {
         "primary_term": "educação",
         "secondary_terms": [
-            ["ensino", "home school", "aprendizagem"],
-            ["superensino", "Cogna", "liber", "Brainy","Stoodi"]
+            ["Cogna", "Brainy","Stoodi", "eduedu", "superensino"]
+        ]
+    }, {
+        "primary_term": "ensino",
+        "secondary_terms": [
+            ["virtual", "Cogna", "Brainy", "Stoodi", "eduedu", "superensino"]
+        ]
+    }, {
+        "primary_term": "educação",
+        "secondary_terms": [
+            ["provedor"],
+            ["Oi", "Claro", "Tim", "Vivo"]
+        ]
+    }, {
+        "primary_term": "educação",
+        "secondary_terms": [
+            ["plataforma"],
+            ["digital", "online", "on-line", "virtual"]
         ]
     }
 ]
@@ -67,7 +83,7 @@ index_2020_2021 = "qd2021"
 # TODO: call method that runs searches for each time frame (index) and saves results to a provided sheet.
 def main():
     # Define here the index to be used
-    index_to_query = index_2020_2021
+    index_to_query = index_2018_2019
     # Connect to ES instance
     es = None
     try:
@@ -82,11 +98,10 @@ def main():
     planilha_1819_id = "1-IDLMx4V9I9RzKnyOVNgTtxpEw7SSp9i1E_iR1Bd53U"
     planilha_2021_id = "1kSpnIAViCObMmQmuAVp8Y77a9YvjTTOOz5LF9jVx_Sk"
     # select the spreeadsheet to be used:
-    spreadsheet_key = planilha_2021_id
-    scope = ['https://spreadsheets.google.com/feeds']
+    spreadsheet_key = planilha_1819_id
+    scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name('./process/gcreds.json', scope)
-    google_creds = gspread.authorize(credentials)
-
+    service = build('sheets', 'v4', credentials=credentials)
 
     for consulta in consultas:
         # Lists for keeping results that will be converted to dataframe
@@ -126,41 +141,22 @@ def main():
                     urls_list.extend([urls[n]])
                 except:
                     pass
-            # Convert list of responses to dataframe
-            responses_df = pd.DataFrame( list(zip( primary_terms_list, secondary_terms_list, urls_list, highlights_list, territory_name_list)), columns=['termo_principal', 'termos_complementares', 'url', 'excerto', 'cidade'], index=index_list)
-            goiania = responses_df[responses_df['cidade'] == 'Goiânia']
-            if goiania.size > 0:
-                print(f'Updating spreadsheets with %d new items for Goiânia' % goiania.size)
-                try:
-                    # Workspace object
-                    wks = google_creds.open_by_key(spreadsheet_key).sheet1
-                    response = gd.set_with_dataframe(wks, goiania)
-                    print(f'Response: %s' % response)
-                    pass
-                except:
-                    print("Something went wrong with Spreasheets upload.")
-            manaus = responses_df[responses_df['cidade'] == 'Manaus']
-            if manaus.size > 0:
-                print(f'Updating spreadsheets with %d new items for Manaus' % manaus.size)
-                try:
-                    # Workspace object
-                    wks = google_creds.open_by_key(spreadsheet_key).sheet1
-                    response = gd.set_with_dataframe(wks, manaus)
-                    print(f'Response: %s' % response)
-                    pass
-                except:
-                    print("Something went wrong with Spreasheets upload.")
-            rio_de_janeiro = responses_df[responses_df['cidade'] == 'Rio de Janeiro']
-            if rio_de_janeiro.size > 0:
-                print(f'Updating spreadsheets with %d new items for Rio de Janeiro' % rio_de_janeiro.size)
-                try:
-                    # Workspace object
-                    wks = google_creds.open_by_key(spreadsheet_key).sheet1
-                    response = gd.set_with_dataframe(wks, rio_de_janeiro)
-                    print(f'Response: %s' % response)
-                    pass
-                except:
-                    print("Something went wrong with Spreasheets upload.")
+
+        # Convert list of responses to dataframe
+        responses_df = pd.DataFrame( list(zip( primary_terms_list, secondary_terms_list, urls_list, highlights_list, territory_name_list)), columns=['termo_principal', 'termos_complementares', 'url', 'excerto', 'cidade'], index=index_list)
+        city_subset = responses_df[responses_df['cidade'].isin(['Goiânia','Manaus', 'Rio de Janeiro'])]
+        if city_subset.size > 0:
+            # Sort by city name and turn into list from df
+            city_subset = (city_subset.sort_values('cidade')).values.tolist()
+            print(f'Updating spreadsheets with %d new items' % len(city_subset))
+            try:
+                #wks.values_append(f'anotação!A:E', {'valueInputOption': 'RAW'}, {'values': city_subset} )
+                res = service.spreadsheets().values().append(spreadsheetId=spreadsheet_key, range=f'A2:E2', valueInputOption=f'USER_ENTERED', insertDataOption="INSERT_ROWS", body= {f'values': city_subset}).execute()
+                print(f'Response: %s' % res)
+                pass
+            except:
+                print(f'Something went wrong with Spreasheets upload: %s.' %  sys.exc_info()[0])
+                pass
     pass
 
 def return_highlights(results: dict) -> list:
@@ -212,7 +208,7 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
                                 }
                             }
                         ],
-                        "max_gaps" : 100
+                        "max_gaps" : 50
                     }
                 }
             }
@@ -220,14 +216,15 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
         "size": 10000,
         "highlight": {
               "type" : "unified",
-              "fragment_size": 300,
-              "number_of_fragments" : 3,
+              "fragment_size": 1500,
+              "number_of_fragments" : 1,
               "fields": {
                     "source_text": {}
                     }
       }
     }
-    # This should hava a list of strings for each any_of block to be added
+
+    # This should hav a list of strings for each any_of block to be added
     for terms in secondary_terms:
       # Adds an entire secondary term block
       for term in terms:
