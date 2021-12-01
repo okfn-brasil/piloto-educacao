@@ -16,106 +16,145 @@ from pathlib import Path
 from googleapiclient.discovery import build
 from typing import Sequence, Optional
 
-
 consultas = [
     {
+        "primary_term": "ambiente virtual de aprendizagem",
+        "secondary_terms": [
+            ['aplicativo', 'plataforma']
+        ]
+    },{
         "primary_term": "ensino",
         "secondary_terms": [
-            ["aprendizagem", "aprendizado"],
-            ["home school", "home schooling"],
-            ["internet"],
-            ["em casa", "domiciliar"],
-            ["à distância"],
-            ["remota", "remoto"],
-            ["virtual"]
-        ]
-    }, {
-        "primary_term": "ensino remoto emergencial",
-        "secondary_terms": [
-            ["equipamento"],
-            ['tablet', 'mobile', 'smartphone', 'notebook']
-        ]
-    }, {
-        "primary_term": "ensino virtual",
-        "secondary_terms": [
-            ["dados móveis"],
-            ["contrato", "provedor"],
+            ['aplicativo', 'plataforma', 'ambiente virtual']
         ]
     }, {
         "primary_term": "ensino",
         "secondary_terms": [
-            ["remoto", "virtual"],
-            ["superensino", "Eduedu", "eduplay", "Cogna", "liber", "Brainy", "Stoodi", "classroom"]
-        ]
-    }, {
-        "primary_term": "educação",
-        "secondary_terms": [
-            ["ensino", "escola","remota", "virtual"],
-            ["internet móvel", "dados móveis", "3G", "4G", "5G"],
-            ["contrato", "licitação", "fornecedor", "provedor"]
+            ['aplicativo', 'plataforma', 'ambiente virtual'],
+            ['em casa', 'domiciliar', 'à distância', 'remota', 'remoto', 'virtual',  'online', 'on-line']
         ]
     }, {
         "primary_term": "ensino",
         "secondary_terms": [
-            ["banda larga", "fibra ótica", "ADSL"],
-            ["educação remota", "remoto"]
-        ]
-    }, {
-        "primary_term": "educação",
-        "secondary_terms": [
-            ["Cogna", "Brainy", "Stoodi", "eduedu", "superensino"]
+            ['tablet', 'mobile', 'smartphone', 'notebook', 'celular', 'computador', 'chromebook']
         ]
     }, {
         "primary_term": "ensino",
         "secondary_terms": [
-            ["classroom", "Cogna", "Brainy", "Stoodi", "eduedu", "superensino"]
+            ['internet', 'dados', '3G', '4G', '5G', 'banda larga'],
+            ['vivo', 'oi', 'tim', 'claro', 'nextel', 'correios', 'telecom']
+        ]
+    }, {
+        "primary_term": "ensino",
+        "secondary_terms": [
+            ['tplink', 'intelbras']
+        ]
+    }, {
+        "primary_term": "ensino",
+        "secondary_terms": [
+            ['internet móvel', 'dados móveis', '3G', '4G', '5G', 'via rádio', 'banda larga', 'fibra ótica', 'satélite', 'ADSL', 'bluetooth']
+        ]
+    }, {
+        "primary_term": "ensino",
+        "secondary_terms": [
+            ['superensino', 'Eduedu', 'eduplay', 'Cogna', 'lemann', 'liber', 'Brainy', 'Stoodi', 'ânima', 'passei direto', 'superprof' 'google', 'microsoft']
+        ]
+    }, {
+        "primary_term": "ensino",
+        "secondary_terms": [
+            ['classroom', 'zoom', 'youtube', 'khan academy', 'kahoot', 'moodle', 'office']
+        ]
+    }, {
+        "primary_term": "ensino",
+        "secondary_terms": [
+            ['positivo', 'lenovo', 'samsung', 'LG', 'HP', 'acer']
         ]
     }, {
         "primary_term": "educação",
         "secondary_terms": [
-            ["provedor"],
-            ["Oi", "Claro", "Tim", "Vivo", "Telecom"]
+            ['aplicativo', 'plataforma', 'ambiente virtual']
         ]
     }, {
         "primary_term": "educação",
         "secondary_terms": [
-            ["plataforma"],
-            ["digital", "online", "on-line", "virtual"]
-        ]
+            ['aplicativo', 'plataforma', 'ambiente virtual'],
+            ['em casa', 'domiciliar', 'à distância', 'remota', 'remoto', 'virtual',  'online', 'on-line']
+         ]
     }, {
-        "primary_term": "internet",
+        "primary_term": "educação",
         "secondary_terms": [
-            ["via rádio", "banda larga", "fibra ótica", "satélite", "ADSL", "3G", "4G", "5G", "dados móveis"],
-            ["educação remota", "ensino remoto", "ensino à distância", "ensino remoto emergencial"]
-        ]
-    }, {
-        "primary_term": "internet",
-        "secondary_terms": [
-            ["em casa", "domiciliar", "à distância", "remota", "remoto", "virtual"],
-            ["superensino", "Eduedu", "eduplay", "Cogna", "liber", "Brainy","Stoodi"]
+            ['tablet', 'mobile', 'smartphone', 'notebook', 'celular', 'computador', 'chromebook']
         ]
     }, {
         "primary_term": "educação",
         "secondary_terms": [
-            ["educação",  "ensino", "aprendizagem", "aprendizado", "home school", "home schooling"],
-            ["internet", "em casa", "domiciliar", "à distância", "remota", "remoto", "virtual"],
-            ["superensino", "Eduedu", "eduplay", "Cogna", "liber", "Brainy","Stoodi"]
+            ['internet', 'dados', '3G', '4G', '5G', 'banda larga'], ['vivo', 'oi', 'tim', 'claro', 'nextel', 'correios', 'telecom']
         ]
     }, {
         "primary_term": "educação",
         "secondary_terms": [
-            ["positivo", "lenovo", "samsung", "LG", "HP"]
+            ['tplink', 'intelbras']
         ]
     }, {
-        "primary_term": "ensino remoto emergencial",
+        "primary_term": "educação",
         "secondary_terms": [
-            ["positivo", "lenovo", "samsung", "LG", "HP"]
+            ['internet móvel', 'dados móveis', '3G', '4G', '5G', 'via rádio', 'banda larga', 'fibra ótica', 'satélite', 'ADSL', 'bluetooth']
         ]
     }, {
-        "primary_term": "ensino remoto emergencial",
+        "primary_term": "educação",
         "secondary_terms": [
-            ["internet", "digital"],
-            ['tablet', 'mobile', 'smartphone', 'notebook']
+            ['classroom', 'zoom', 'youtube', 'khan academy', 'kahoot', 'moodle', 'office']
+        ]
+    }, {
+        "primary_term": "educação",
+        "secondary_terms": [
+            ['positivo', 'lenovo', 'samsung', 'LG', 'HP', 'acer']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['aplicativo', 'plataforma', 'ambiente virtual']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['aplicativo', 'plataforma', 'ambiente virtual'],
+            ['em casa', 'domiciliar', 'à distância', 'remota', 'remoto', 'virtual',  'online', 'on-line']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['tablet', 'mobile', 'smartphone', 'notebook', 'celular', 'computador', 'chromebook']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['internet', 'dados', '3G', '4G', '5G', 'banda larga'], ['vivo', 'oi', 'tim', 'claro', 'nextel', 'correios', 'telecom']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['tplink', 'intelbras']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['internet móvel', 'dados móveis', '3G', '4G', '5G', 'via rádio', 'banda larga', 'fibra ótica', 'satélite', 'ADSL', 'bluetooth']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['superensino', 'Eduedu', 'eduplay', 'Cogna', 'lemann', 'liber', 'Brainy', 'Stoodi', 'ânima', 'passei direto', 'superprof' 'google', 'microsoft']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['classroom', 'zoom', 'youtube', 'khan academy', 'kahoot', 'moodle', 'office']
+        ]
+    }, {
+        "primary_term": "educacional",
+        "secondary_terms": [
+            ['positivo', 'lenovo', 'samsung', 'LG', 'HP', 'acer']
         ]
     }
 ]
@@ -126,13 +165,15 @@ index_2020_2021 = "qd2021"
 index_qd_full = "queridodiario2"
 
 def main():
-    # Select HERE the index to be used to tun the program
-    index_to_query = index_qd_full
+    # Select HERE the index to be used to run the program
+    index_to_query = index_2020_2021
+
     # Connect to ES instance
     es = None
     try:
         es = Elasticsearch(hosts=['localhost'], timeout=3000)
         print("Connected to %s" % str(es))
+        pass
     except:
         print("Impossível conectar ao ElasticSearch. Will now exit.")
         exit(0)
@@ -143,7 +184,7 @@ def main():
     planilha_2021_id = "13atpUVjN5Nu9dviVcmqhq7EXE0zYgFPVpVjWcvT1pk8"
     planilha_qd_full = "1h7AQ4JoqK3gFGMXIRO-HrS95hnfDlVPojnzOqGeYkgI"
 
-    # selects HERE the spreeadsheet to be used for writting results to, according to selected index:
+    # Auto selects HERE the spreeadsheet to be used for writting results to, according to selected index:
     spreadsheet_key = None
     if index_to_query == index_2018_2019:
         spreadsheet_key = planilha_1819_id
@@ -157,7 +198,6 @@ def main():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
     # fetch information from json file and process with defined scope
     credentials = ServiceAccountCredentials.from_json_keyfile_name('./process/gcreds.json', scope)
-    print(str(credentials))
     # Use credentials to fetch service
     service = build('sheets', 'v4', credentials=credentials)
 
@@ -165,37 +205,45 @@ def main():
     for consulta in consultas:
         # Lists for keeping results that will be converted to dataframe, one index per response, for all lists, representing a single row in the spreadsheets
         index_list, query_index_list, primary_terms_list, secondary_terms_list, highlights_list, territory_name_list, urls_list = [], [], [], [], [], [], []
-        #print("Consulta : %s" % consulta)
+
+        # Assemble query from provided keywords
         query = assembleIntervalQuery(consulta["primary_term"], consulta["secondary_terms"])
+        # Track run time for each query
         start_time = time.time()
         # Print the assembled_query in a pretty JSON format
-        pretty_query = json.dumps(query, indent=3)
+        #pretty_query = json.dumps(query, indent=3)
         #print(f'Busca iniciada para a seguinte consulta: %s' % pretty_query)
+
+        # Run search on ES
         results = es.search(
             index=index_to_query,
             body=query,
         )
+        # Track end time for query
         end_time = time.time() - start_time
         if results:
             n_hits = return_hits(results)
-            print(f'→→→ A busca finalizada demorou %d segundos para retornar (%d) itens.' % (int(end_time), n_hits))
+            print(f'ø A busca demorou %d segundos para retornar (%d) itens.' % (int(end_time), n_hits))
+
             # From the returned results, extract highlights, city and urls
             highlights = return_highlights(results)
             cidades = return_territory_name(results)
             urls = return_urls(results)
 
             index_n = 0
+            # Para cada documento
             for n in range(0, n_hits):
                 try:
-                    # Fetch the first[0] highlight for this query/terms
+                    # Para cada highlight do documento
                     for h in highlights[n]:
-                        # Fix highlights blank chars with qd's toolbox remove_breaks:
+                        # Limpa o highlight usandoquerido_diario_toolbox:
                         highlights_clean_text = remove_breaks(h)
 
-                        # LEAP: Ensure only highlights WITH at least N matching secondary terms appear
-                        n_secondary_matches = 0
-                        # And also matches the primary term
+                        # Ensure matches the primary term bool
                         primary_match = False
+
+                        # Ensure only highlights WITH at least ONE of each secondary matches list is present. If any of them returns empty, set secondary_matches to False
+                        secondary_matches = True
 
                         # Check primary term match
                         if highlights_clean_text.find(consulta['primary_term']) > 0:
@@ -203,15 +251,26 @@ def main():
 
                         # Para cada termo de um conjunto de termos secundários, verifique se ocorre no highlight
                         for st in consulta['secondary_terms']:
-                            # Para cada termo, verificar cada palavra
-                            for word in st:
-                                if highlights_clean_text.find(word) > 0:
-                                    # Increment counter
-                                    n_secondary_matches = n_secondary_matches + 1
+                            # Multiple words
+                            if len(st) > 1:
+                                positive_counter = 0
+                                # Para cada termo, verificar cada palavra
+                                for word in st:
+                                    if highlights_clean_text.find(word) > 0:
+                                        # Increment counter
+                                        positive_counter = positive_counter + 1
+                                # Para esses termos any of, se não encontrou pelo menos um
+                                if positive_counter == 0:
+                                    secondary_matches = False
 
-                        # If the current highlight has secondary_term matches, it is relevant. Add it to the list
-                        if primary_match and (n_secondary_matches > 0):
-                            # Increment index and append it to list
+                            elif len(st) == 1:
+                                word = st[0]
+                                if highlights_clean_text.find(word) <= 0:
+                                    secondary_matches = False
+
+                        # Se o trecho de destaque atual contém termos primários e pelo menos um de cada grupo secundário, é válido
+                        if primary_match and secondary_matches:
+                            # Adiciona o índice atual à lista e incrementa
                             index_list.append(index_n)
                             index_n = index_n + 1
 
@@ -232,22 +291,23 @@ def main():
 
                             # Add the DO's url
                             urls_list.append(urls[n])
-                        else:
-                            # TODO: Here we can add an empty object to be considered with 0 values when when exporting "total" value tab
+
                             pass
                 except:
                     pass
 
-        # Convert list of responses to dataframe
+        # Converte lista de respostas para o dataframe
         responses_df = pd.DataFrame( list(zip( query_index_list, primary_terms_list, secondary_terms_list, urls_list, highlights_list, territory_name_list)), columns=['indice', 'termo_principal', 'termos_complementares', 'url', 'excerto', 'cidade'], index=index_list)
 
         # Selecionar os resultados das cidades relevantes
-        cidades_ref = ['Goiânia', 'Manaus', 'Rio de Janeiro']
+        cidades_ref = ['Cuiabá', 'Goiânia', 'Manaus', 'Rio de Janeiro']
 
+        # Retorna apenas as linhas do DF que pertençam a essas cidades
         city_subset = responses_df[responses_df['cidade'].isin(cidades_ref)]
+
         # Caso haja algum resultado
         if (city_subset.count()[0] > 0):
-            # Sort by city name and secondary terms and turn into list from df
+            # Ordena os resultados dentro do dataframe
             city_subset = (city_subset.sort_values('termos_complementares'))
             city_subset = (city_subset.sort_values('cidade'))
             city_subset = (city_subset.sort_values('indice'))
@@ -256,10 +316,11 @@ def main():
 
             print(f'Updating spreadsheets with %d new items' % len(city_subset))
             try:
-                # Upload in shards of up to 500 items
+                # Envia os resultados para a planilha google em lotes de 500 resultados, de modo a evitar sobrecarregar a API do google e perder registros
                 N_ITEMS_BY_SHARD = 500
                 n_items = len(city_subset_list)
-                # Treat cases where the amount of results to be added is greater than the shard limit
+
+                # Muitos resultados, separa em fatias
                 if  n_items > N_ITEMS_BY_SHARD:
                     n_shards = n_items%N_ITEMS_BY_SHARD
                     lower_limit = 0
@@ -277,6 +338,7 @@ def main():
                         # Impose upper limit to n_items to avoid index overflowing
                         if upper_limit > n_items:
                             upper_limit = n_items
+                # Poucos resultados, única fatia
                 else:
                     res = service.spreadsheets().values().append(spreadsheetId=spreadsheet_key, range=f'resultados!A2:F2', valueInputOption=f'USER_ENTERED', insertDataOption="INSERT_ROWS", body= {f'values': city_subset_list}).execute()
                     print(f'Spreadsheets Response: \n%s' % json.dumps(res))
@@ -285,7 +347,7 @@ def main():
                 print(f'Something went wrong with Spreasheets upload: %s.' %  sys.exc_info()[0])
                 pass
 
-            # New object to create dataframe to hold the lines with total counts
+            # Objeto para criar dataframe que vai receber as contagens para a aba "total"
             counts_obj = {
                 f'termo_principal': [],
                 f'termos_complementares': [],
@@ -297,8 +359,8 @@ def main():
             sec_terms_str_list = ""
             for st in consulta["secondary_terms"]:
                 sec_terms_str_list = sec_terms_str_list + " " + str(st)
-            print("→→→ Secondary terms: %s" % sec_terms_str_list)
 
+            # Para cada cidade, vamos registrar um objeto com os termos principais e secundários da consulta, a cidade e o total de documentos encontrados para aquela consulta
             for c in cidades_ref:
                 subcity = city_subset[city_subset['cidade'] == c]
                 # Number of rows for this dataframe
@@ -308,15 +370,14 @@ def main():
                 counts_obj['cidade'].append(c)
                 counts_obj['total'].append(n_itens)
 
-            # Generate dataframe from object
+            # Gera um dataframe a partir do objeto
             counts_df = pd.DataFrame(counts_obj)
-            print("→→ Dataframe: %s" % counts_df)
 
-            # Adiciona à segunda aba da planilha um resumo com as contagens para cada consulta, por cidade
+            # Converte o dataframe em lista para ser enviada como valores da planilha
             result_totals = counts_df.values.tolist()
             print(f'Updating spreadsheets totals with %d new lines' % len(result_totals))
             try:
-                # Execute update operation to the spreadsheets with provided parameters of range, valueInputOption, insertDataOption and the city subset list as values.
+                # Executa atualização da planilha com adição dos novos resultados ao final
                 res = service.spreadsheets().values().append(spreadsheetId=spreadsheet_key, range=f'total!A2:D2', valueInputOption=f'USER_ENTERED', insertDataOption="INSERT_ROWS", body= {f'values': result_totals}).execute()
                 print(f'Spreadsheets Response: \n%s' % json.dumps(res))
                 pass
@@ -324,23 +385,30 @@ def main():
                 print(f'Something went wrong with Spreasheets upload: %s.' %  sys.exc_info()[0])
                 pass
             pass
-        # Case the city has no results, should still add empty results to display
+        # Case uma cidade não tenha resultados, deve adicionar um registro com 0 contagens para a consulta, de modo a constar no relatório.
         else:
             try:
                 primary_term_str = consulta["primary_term"]
                 # Secondary terms aux
                 secondary_terms_str = str(consulta['secondary_terms'])
-                # New object to create dataframe to hold the lines with total counts
+                # Objeto para criar dataframe com as linhas para a aba de contagens "total"
                 counts_obj = {
-                    "termo_principal": [primary_term_str, primary_term_str, primary_term_str],
-                    "termos_complementares": [secondary_terms_str, secondary_terms_str, secondary_terms_str ],
-                    "cidade": cidades_ref,
-                    "total": [0, 0, 0]
+                    "termo_principal": [],
+                    "termos_complementares": [],
+                    "cidade": [],
+                    "total": []
                 }
+                # Para cada cidade, adiciona uma linha com as informações nulas
+                for c in cidades_ref:
+                    counts_obj["termo_principal"].append(primary_term_str)
+                    counts_obj["termo_complementares"].append(secondary_terms_str)
+                    counts_obj["cidade"].append(c)
+                    counts_obj["total"].append(0)
+                # Cria DataFrame a partir do objeto
                 counts_df = pd.DataFrame(counts_obj)
-                # Adiciona à segunda aba da planilha um resumo com as contagens para cada consulta, por cidade
+                # Lista a partir do DF
                 result_totals = counts_df.values.tolist()
-                # Execute update operation to the spreadsheets with provided parameters of range, valueInputOption, insertDataOption and the city subset list as values.
+                # Atualiza a segunda aba da planilha com um resumo com as contagens para cada consulta, por cidade
                 res = service.spreadsheets().values().append(spreadsheetId=spreadsheet_key, range=f'total!A2:D2', valueInputOption=f'USER_ENTERED', insertDataOption="INSERT_ROWS", body= {f'values': result_totals}).execute()
                 print(f'Spreadsheets Response: \n%s' % json.dumps(res))
                 pass
@@ -382,12 +450,14 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
 
     """Receives the string parameters to be used as search terms. The terms might be a single or multi word value. When multiple words are provided,
     they will be treated as a full text string, or in other words, in the interval query synthax, as set to ordered = True and max_gaps = 0.
-    When a single term is provided, it can be found either after or before the primary term.
-    The primary term is evaluated for a match, and all groups of words from secondary terms are added as an individual any_of block,
-    inside an all_of clause considered in AND condition with the primary term match.
+    When a secondary term is provided, it can be found either after or before the primary term in the text, never N words apart from it.
+    There is an all_of rule, that contains a match rule where the primary term is evaluated for a match. All groups of words from secondary terms
+    are added to the all_of block as a match in an individual any_of block, if there are multiple words, treated as synonyms. Or added as single match rules,
+    inside the all_of clause and considered in AND condition with the primary term match. There must be at least one positive term for each secondary_terms,
+    along with the primary_term to return a highlight/document as positive.
     Builds the interval query based on the terms along with appropriate hardcoded parameters, such as highlights"""
 
-    # Mounted query to be returned and run
+    # Query a ser montada e retornada para a execução, com parâmetros de campos a serem retornados nos resultados, bem como as configurações de highlight
     assembled_query = {
         "_source": ["url", "territory_name"],
         "query": {
@@ -395,7 +465,7 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
                 "source_text" : {
                     "all_of" : {
                         "intervals" : [],
-                        "max_gaps" : 50
+                        "max_gaps" : 100
                     }
                 }
             }
@@ -413,7 +483,7 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
         }
     }
 
-    # Set primary term parameters
+    # Configura o bloco de parâmetros primários
     primary_term_split = primary_term.split()
     primary_term_block = None
     if len(primary_term_split) > 1:
@@ -423,7 +493,7 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
         # Add it to the assembled_query obj
     assembled_query["query"]["intervals"]["source_text"]["all_of"]["intervals"].extend([primary_term_block])
 
-    # Aqui, se há múltiplos termos deve-se gerar um bloco any_of para selecionar um dos termos. Se há apenas um termo, adiciona-se apenas um bloco match
+    # Aqui, se há múltiplos termos deve-se gerar um bloco any_of para selecionar um dos termos. Se há apenas um termo, adiciona-se ao invés apenas um bloco match
     for terms in secondary_terms:
         match = None
         # Any_of block
@@ -434,19 +504,18 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
                 "intervals" : []
                 }
             }
-            # Multiple options to choose one from, add new any_of block. Ex.: ["wireless", "sem fio"]
-            # Aqui, vamos adicionar individualmente os sinônimos
+            # Aqui, vamos adicionar individualmente os sinônimos. Ex.: ["wireless", "sem fio"]
             for term in terms:
                 split_term = term.split()
                 if len(split_term) > 1:
                     match = { "match" : { "query" : term, "ordered": True, "max_gaps": 0 } }
                 elif len(split_term) == 1:
                     match = { "match" : { "query" : term} }
-                # Add to the any_of_block to be added
+                # Adciona o match ao novo bloco any_of
                 any_of_block["any_of"]["intervals"].extend([match])
-            # Add block to the assembled_query
+            # Adiciona o bloco ao assembled_query
             assembled_query["query"]["intervals"]["source_text"]["all_of"]["intervals"].extend([any_of_block])
-        # single term query item. Ex.: ["à rádio"]. Se há apenas um termo, adicione-o, de acordo com o número de palavras.
+        # Se há apenas um termo, adicione-o como match, de acordo com o número de palavras. Ex.: ["à rádio"].
         elif len(terms) == 1:
             term = terms[0]
             # multiple terms for a single query item  Ex.: "banda larga"
@@ -457,7 +526,7 @@ def assembleIntervalQuery(primary_term: str, secondary_terms: []):
                 match  = { "match" : { "query" : term } }
             assembled_query["query"]["intervals"]["source_text"]["all_of"]["intervals"].append(match)
 
-    # Return the assembled query to be run
+    # Returna a consulta montada em formato JSON a ser executada
     return assembled_query
 
 if __name__ == "__main__":
